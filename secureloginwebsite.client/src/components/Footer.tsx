@@ -24,7 +24,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-4 text-center md:text-right">
-          &copy; {new Date().getFullYear()} MyApp. All rights reserved.
+          &copy; {new Date().getFullYear()} LHA. All rights reserved.
         </div>
       </div>
     </footer>

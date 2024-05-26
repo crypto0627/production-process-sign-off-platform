@@ -51,6 +51,11 @@ export default defineConfig({
         target: 'http://localhost:5269',
         secure: false,
       },
+      '^/swagger': {
+        target: 'http://localhost:5269',
+        changeOrigin: true,
+        secure: false
+      }
     },
     port: 5173,
     https: {

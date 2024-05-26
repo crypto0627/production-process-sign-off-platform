@@ -10,16 +10,27 @@ namespace SecureLoginWebsite.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SecureLoginWebsiteController(SignInManager<User> signInManager, UserManager<User> userManager) : Controller
+    public class SecureLoginWebsiteController : ControllerBase
     {
-        private readonly SignInManager<User> _signInManager = signInManager;
-        private readonly UserManager<User> _userManager = userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
 
+        public SecureLoginWebsiteController(SignInManager<User> signInManager, UserManager<User> userManager)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
+        /// <summary>
+        /// Register a new user.
+        /// </summary>
+        /// <param name="user">User details for registration.</param>
+        /// <returns>Registration status.</returns>
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(User user)
         {
             string message = "";
-            IdentityResult result= new();
+            IdentityResult result = new();
 
             try
             {
@@ -52,6 +63,11 @@ namespace SecureLoginWebsite.Server.Controllers
             return Ok(new { message = message, result = result });
         }
 
+        /// <summary>
+        /// Login an existing user.
+        /// </summary>
+        /// <param name="login">Login details.</param>
+        /// <returns>Login status.</returns>
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)
         {
@@ -94,6 +110,10 @@ namespace SecureLoginWebsite.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Logout the current user.
+        /// </summary>
+        /// <returns>Logout status.</returns>
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
         {
@@ -109,6 +129,10 @@ namespace SecureLoginWebsite.Server.Controllers
             return Ok(new { message = "Logout Successful" });
         }
 
+        /// <summary>
+        /// Get the list of admin partners.
+        /// </summary>
+        /// <returns>List of partners.</returns>
         [HttpGet("admin"), Authorize]
         public ActionResult AdminPage()
         {
@@ -117,6 +141,11 @@ namespace SecureLoginWebsite.Server.Controllers
             return Ok(new { trustPartners = partners });
         }
 
+        /// <summary>
+        /// Get home page details for a user by email.
+        /// </summary>
+        /// <param name="email">User email.</param>
+        /// <returns>User information.</returns>
         [HttpGet("home/{email}"), Authorize]
         public async Task<ActionResult> HomePage(string email)
         {
@@ -129,6 +158,10 @@ namespace SecureLoginWebsite.Server.Controllers
             return Ok(new { userInfo = userInfo });
         }
 
+        /// <summary>
+        /// Check the current user.
+        /// </summary>
+        /// <returns>User information if logged in.</returns>
         [HttpGet("xhtlekd")]
         public async Task<ActionResult> CheckUser()
         {
